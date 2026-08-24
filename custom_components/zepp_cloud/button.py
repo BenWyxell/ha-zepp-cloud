@@ -51,6 +51,7 @@ class ZeppCloudRefreshButton(
         """Expose compact cloud histories for timestamp-accurate Lovelace charts."""
         data = self.coordinator.data or {}
         return {
+            "heart_rate_measurements": data.get("_heart_rate_series", []),
             "spo2_measurements": data.get("spo2_history", []),
             "blood_pressure_measurements": data.get("blood_pressure_history", []),
         }
