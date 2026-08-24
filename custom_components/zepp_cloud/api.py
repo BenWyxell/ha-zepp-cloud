@@ -172,6 +172,24 @@ class ZeppApiClient:
             },
         )
 
+    async def blood_pressure(
+        self,
+        *,
+        days: int = 7,
+        to_date: date | None = None,
+        source: str = "com.huami.midong.associated,com.huami.midong",
+    ) -> Any:
+        """Blood-pressure history from the Zepp mobile API."""
+        target = to_date or date.today()
+        return await self._get_json(
+            "/users/me/bloodPressure",
+            {
+                "days": max(1, int(days)),
+                "sourceArrayStr": source,
+                "toDate": target.isoformat(),
+            },
+        )
+
     async def sport_load(self, start_day: date, end_day: date) -> Any:
         return await self._get_json(
             f"/v2/watch/users/{self._user_id}/WatchSportStatistics/SPORT_LOAD",

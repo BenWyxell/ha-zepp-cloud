@@ -28,6 +28,8 @@ The integration polls Zepp Cloud automatically and exposes Home Assistant entiti
 - current/latest cloud heart rate
 - heart-rate sample age
 - daily heart-rate minimum / maximum / average
+- blood pressure: combined reading, systolic, diastolic and measurement pulse
+- today's blood-pressure measurement count and systolic/diastolic minimum, maximum and average
 - daily steps, distance, active calories and active minutes
 - daily goals and goal progress
 - stress, daily stress minimum / maximum / average
@@ -44,6 +46,8 @@ The integration polls Zepp Cloud automatically and exposes Home Assistant entiti
 - manual **Refresh Zepp Cloud now** button
 
 For Zepp `band_data` responses that expose a 1440-byte `data_hr` field, the integration uses that field as the minute-level heart-rate source. If `data_hr` is missing, it falls back to the matching byte in the known 8-byte minute records.
+
+Blood pressure is read from Zepp's private `/users/me/bloodPressure` endpoint. Because Zepp response schemas can vary by device, app version and region, the parser accepts several known/common key aliases while requiring a plausible systolic/diastolic pair. Missing blood-pressure data stay unavailable rather than being invented or converted to zero.
 
 The integration re-reads a recent cloud window, so data uploaded late by the phone can be picked up on a later refresh.
 
@@ -93,7 +97,7 @@ Zepp's API is private and varies by device, firmware, account region and Zepp ap
 
 - unavailable data remain unavailable instead of being fabricated;
 - a working endpoint may return no values for a device that does not collect them;
-- SpO2 / VO2 max / training load may be unavailable for some users;
+- blood pressure / SpO2 / VO2 max / training load may be unavailable for some users;
 - missing data are not silently converted to zero.
 
 ## Security
