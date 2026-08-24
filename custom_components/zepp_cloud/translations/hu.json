@@ -1,0 +1,88 @@
+{
+  "title": "Zepp Cloud",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Zepp Cloud beállítása",
+        "description": "A saját hitelesített Zepp fiókod adatait add meg. A token jelszóértékű titok.",
+        "data": {
+          "name": "Eszköz neve",
+          "app_token": "Zepp app token",
+          "user_id": "Zepp felhasználói azonosító",
+          "host": "Regionális Zepp API host",
+          "update_interval": "Frissítési gyakoriság (perc)"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Zepp Cloud újrahitelesítése",
+        "description": "A korábbi Zepp tokent a szerver elutasította vagy lejárt. Adj meg egy új app tokent.",
+        "data": {
+          "app_token": "Új Zepp app token"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Nem sikerült kapcsolódni a Zepp Cloudhoz.",
+      "invalid_auth": "A Zepp token érvénytelen vagy lejárt.",
+      "invalid_host": "Érvényes api-mifit Zepp/Huami hostot adj meg https:// és elérési út nélkül."
+    },
+    "abort": {
+      "already_configured": "Ez a Zepp fiók már be van állítva.",
+      "reauth_successful": "A Zepp Cloud újrahitelesítése sikerült.",
+      "reauth_failed": "Nem található az újrahitelesítendő Zepp Cloud bejegyzés."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Zepp Cloud beállítások",
+        "description": "A visszanézési ablak segít a később telefonról felhőbe szinkronizált adatok felvételében.",
+        "data": {
+          "update_interval": "Frissítési gyakoriság (perc)",
+          "lookback_days": "Újra lekért legutóbbi napok száma"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "heart_rate": {"name": "Pulzus"},
+      "heart_rate_age": {"name": "Pulzusadat kora"},
+      "heart_rate_min_today": {"name": "Mai minimum pulzus"},
+      "heart_rate_max_today": {"name": "Mai maximum pulzus"},
+      "heart_rate_avg_today": {"name": "Mai átlagpulzus"},
+      "sleep_resting_hr": {"name": "Alvási nyugalmi pulzus"},
+      "spo2": {"name": "Véroxigén"},
+      "stress": {"name": "Stressz"},
+      "stress_min": {"name": "Minimum stressz"},
+      "stress_max": {"name": "Maximum stressz"},
+      "stress_avg": {"name": "Átlagos stressz"},
+      "steps": {"name": "Lépések"},
+      "distance": {"name": "Távolság"},
+      "calories": {"name": "Aktív kalória"},
+      "active_minutes": {"name": "Aktív percek"},
+      "step_goal": {"name": "Lépéscél"},
+      "step_goal_progress": {"name": "Lépéscél teljesülése"},
+      "calorie_goal": {"name": "Kalóriacél"},
+      "calorie_goal_progress": {"name": "Kalóriacél teljesülése"},
+      "active_minutes_goal": {"name": "Aktívperccél"},
+      "active_minutes_goal_progress": {"name": "Aktívperccél teljesülése"},
+      "sleep_score": {"name": "Alváspontszám"},
+      "sleep_total": {"name": "Teljes alvás"},
+      "sleep_light": {"name": "Könnyű alvás"},
+      "sleep_deep": {"name": "Mély alvás"},
+      "sleep_rem": {"name": "REM alvás"},
+      "sleep_awake": {"name": "Ébrenlét alvás közben"},
+      "sleep_start": {"name": "Alvás kezdete"},
+      "sleep_end": {"name": "Alvás vége"},
+      "sleep_awakenings": {"name": "Ébredések"},
+      "training_load": {"name": "Edzésterhelés"},
+      "day_training_load": {"name": "Napi edzésterhelés"},
+      "vo2_max": {"name": "VO₂ max"},
+      "cloud_checked": {"name": "Utolsó Zepp Cloud ellenőrzés"}
+    },
+    "button": {
+      "refresh": {"name": "Zepp Cloud frissítése most"}
+    }
+  }
+}
