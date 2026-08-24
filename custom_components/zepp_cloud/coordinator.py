@@ -13,6 +13,7 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .api import ZeppApiClient, ZeppAuthError
+from .blood_pressure import parse_blood_pressure
 from .const import (
     CONF_APP_TOKEN,
     CONF_HOST,
@@ -86,6 +87,10 @@ class ZeppCloudCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             "spo2": self.client.user_events(
                 "blood_oxygen", from_ms, to_ms, limit=1000
             ),
+            "blood_pressure": self.client.blood_pressure(
+                days=event_days,
+                to_date=local_today,
+            ),
             "load": self.client.sport_load(stats_start, stats_end),
             "vo2": self.client.vo2_max(stats_start, stats_end),
         }
@@ -115,6 +120,12 @@ class ZeppCloudCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         data.update(daily)
         data.update(parse_stress(self._cache.get("stress")))
         data.update(parse_spo2(self._cache.get("spo2")))
+        data.update(
+            parse_blood_pressure(
+                self._cache.get("blood_pressure"),
+                self.hass.config.time_zone,
+            )
+        )
         data.update(parse_training_load(self._cache.get("load")))
         data.update(parse_vo2(self._cache.get("vo2")))
 
