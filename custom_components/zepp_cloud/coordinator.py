@@ -32,6 +32,7 @@ from .parser import (
     parse_training_load,
     parse_vo2,
 )
+from .spo2 import parse_spo2_v2
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -84,7 +85,10 @@ class ZeppCloudCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             "stress": self.client.user_events(
                 "all_day_stress", from_ms, to_ms, limit=100
             ),
-            "spo2": self.client.user_events(
+            "spo2_v2": self.client.events(
+                "Spo2V2", "real_data", from_ms, to_ms, limit=1000
+            ),
+            "spo2_legacy": self.client.user_events(
                 "blood_oxygen", from_ms, to_ms, limit=1000
             ),
             "blood_pressure": self.client.blood_pressure(
@@ -129,7 +133,12 @@ class ZeppCloudCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         daily = parse_daily_health(self._cache.get("daily"))
         data.update(daily)
         data.update(parse_stress(self._cache.get("stress")))
-        data.update(parse_spo2(self._cache.get("spo2")))
+
+        spo2 = parse_spo2_v2(self._cache.get("spo2_v2"))
+        if spo2.get("spo2") is None:
+            spo2 = parse_spo2(self._cache.get("spo2_legacy"))
+        data.update(spo2)
+
         data.update(
             parse_blood_pressure(
                 self._cache.get("blood_pressure"),
