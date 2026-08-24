@@ -1,0 +1,88 @@
+{
+  "title": "Zepp Cloud",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Set up Zepp Cloud",
+        "description": "Enter credentials from your own authenticated Zepp account. The token is a password-equivalent secret.",
+        "data": {
+          "name": "Device name",
+          "app_token": "Zepp app token",
+          "user_id": "Zepp user ID",
+          "host": "Regional Zepp API host",
+          "update_interval": "Refresh interval (minutes)"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Reauthenticate Zepp Cloud",
+        "description": "The previous Zepp token was rejected or expired. Enter a fresh app token.",
+        "data": {
+          "app_token": "New Zepp app token"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not connect to Zepp Cloud.",
+      "invalid_auth": "The Zepp token is invalid or expired.",
+      "invalid_host": "Enter a valid api-mifit Zepp/Huami hostname without https:// or a path."
+    },
+    "abort": {
+      "already_configured": "This Zepp account is already configured.",
+      "reauth_successful": "Zepp Cloud reauthentication completed.",
+      "reauth_failed": "Could not find the Zepp Cloud entry to reauthenticate."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Zepp Cloud options",
+        "description": "The lookback window lets late phone-to-cloud synchronisation be picked up on a later refresh.",
+        "data": {
+          "update_interval": "Refresh interval (minutes)",
+          "lookback_days": "Recent cloud days to re-read"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "heart_rate": {"name": "Heart rate"},
+      "heart_rate_age": {"name": "Heart-rate data age"},
+      "heart_rate_min_today": {"name": "Heart rate minimum today"},
+      "heart_rate_max_today": {"name": "Heart rate maximum today"},
+      "heart_rate_avg_today": {"name": "Heart rate average today"},
+      "sleep_resting_hr": {"name": "Sleep resting heart rate"},
+      "spo2": {"name": "Blood oxygen"},
+      "stress": {"name": "Stress"},
+      "stress_min": {"name": "Stress minimum"},
+      "stress_max": {"name": "Stress maximum"},
+      "stress_avg": {"name": "Stress average"},
+      "steps": {"name": "Steps"},
+      "distance": {"name": "Distance"},
+      "calories": {"name": "Active calories"},
+      "active_minutes": {"name": "Active minutes"},
+      "step_goal": {"name": "Step goal"},
+      "step_goal_progress": {"name": "Step goal progress"},
+      "calorie_goal": {"name": "Calorie goal"},
+      "calorie_goal_progress": {"name": "Calorie goal progress"},
+      "active_minutes_goal": {"name": "Active minutes goal"},
+      "active_minutes_goal_progress": {"name": "Active minutes goal progress"},
+      "sleep_score": {"name": "Sleep score"},
+      "sleep_total": {"name": "Total sleep"},
+      "sleep_light": {"name": "Light sleep"},
+      "sleep_deep": {"name": "Deep sleep"},
+      "sleep_rem": {"name": "REM sleep"},
+      "sleep_awake": {"name": "Awake during sleep"},
+      "sleep_start": {"name": "Sleep start"},
+      "sleep_end": {"name": "Sleep end"},
+      "sleep_awakenings": {"name": "Sleep awakenings"},
+      "training_load": {"name": "Training load"},
+      "day_training_load": {"name": "Daily training load"},
+      "vo2_max": {"name": "VO2 max"},
+      "cloud_checked": {"name": "Last Zepp Cloud check"}
+    },
+    "button": {
+      "refresh": {"name": "Refresh Zepp Cloud now"}
+    }
+  }
+}

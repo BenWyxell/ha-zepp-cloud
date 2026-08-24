@@ -1,0 +1,15 @@
+{
+  "domain": "zepp_cloud",
+  "name": "Zepp Cloud",
+  "codeowners": [
+    "@BenWyxell"
+  ],
+  "config_flow": true,
+  "dependencies": [],
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "requirements": [],
+  "version": "1.0.0",
+  "documentation": "https://github.com/BenWyxell/ha-zepp-cloud",
+  "issue_tracker": "https://github.com/BenWyxell/ha-zepp-cloud/issues"
+}
