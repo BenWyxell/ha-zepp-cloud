@@ -48,6 +48,7 @@ async def async_get_config_entry_diagnostics(
             "has_sleep": data.get("sleep_score") is not None,
             "has_stress": data.get("stress") is not None,
             "has_spo2": data.get("spo2") is not None,
+            "has_blood_pressure": data.get("blood_pressure") is not None,
             "has_vo2_max": data.get("vo2_max") is not None,
         },
         "privacy_note": (
