@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.4.0
+
+- Expose the decoded one-minute heart-rate cloud series as timestamped chart data.
+- Lovelace/ApexCharts can now render the actual minute samples instead of only Home Assistant's polling-time sensor states.
+- Existing blood-pressure and SpO2 chart-history attributes are unchanged.
+
+## 1.3.0
+
+- Expose compact timestamped blood-pressure and SpO2 histories for Lovelace charts.
+- Blood-pressure history contains actual measurement time, systolic, diastolic and pulse values.
+- SpO2 history contains actual cloud sample time, saturation and manual/automatic flag.
+- Histories are capped to avoid unbounded state attributes.
+
+## 1.2.0
+
+- Added current Zepp `Spo2V2` / `real_data` cloud support.
+- Parse `value.samples[].spo2` and reconstruct the actual measurement completion time.
+- Keep the legacy `blood_oxygen` event source as fallback.
+
 ## 1.1.0
 
 - Added Zepp Cloud blood-pressure polling via `/users/me/bloodPressure`.
