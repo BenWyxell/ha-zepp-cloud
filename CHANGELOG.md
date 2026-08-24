@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.0
+
+- Added Zepp Cloud blood-pressure polling via `/users/me/bloodPressure`.
+- Added latest combined blood pressure, systolic, diastolic and measurement pulse sensors.
+- Added today's blood-pressure measurement count plus systolic/diastolic minimum, maximum and average sensors.
+- Added English and Hungarian blood-pressure translations.
+- Added privacy-safe diagnostics flag showing whether blood-pressure data are available.
+- Blood-pressure parsing is defensive across multiple possible Zepp response key names and does not fabricate missing readings.
+
 ## 1.0.0
 
 - Public, user-agnostic release.
