@@ -33,6 +33,7 @@ _TIME_KEYS = (
     "createTime",
     "createdAt",
 )
+_SOURCE_KEYS = ("source", "sourceName", "deviceSource", "appSource")
 
 
 def parse_blood_pressure(payload: Any, tz_name: str) -> dict[str, Any]:
@@ -60,7 +61,7 @@ def parse_blood_pressure(payload: Any, tz_name: str) -> dict[str, Any]:
     }
 
     records: list[dict[str, Any]] = []
-    _walk(payload, records)
+    _walk(payload, records, {})
     if not records:
         return out
 
@@ -84,7 +85,7 @@ def parse_blood_pressure(payload: Any, tz_name: str) -> dict[str, Any]:
             pulse = None
 
         source = None
-        for key in ("source", "sourceName", "deviceSource", "appSource"):
+        for key in _SOURCE_KEYS:
             value = record.get(key)
             if isinstance(value, (str, int, float)) and str(value).strip():
                 source = str(value)
@@ -157,17 +158,29 @@ def parse_blood_pressure(payload: Any, tz_name: str) -> dict[str, Any]:
     return out
 
 
-def _walk(value: Any, records: list[dict[str, Any]]) -> None:
-    """Recursively collect dictionaries, including JSON encoded strings."""
+def _walk(
+    value: Any,
+    records: list[dict[str, Any]],
+    inherited: dict[str, Any],
+) -> None:
+    """Collect dictionaries while carrying parent timestamp/source metadata."""
     if isinstance(value, dict):
-        records.append(value)
+        context = dict(inherited)
+        for key in (*_TIME_KEYS, *_SOURCE_KEYS):
+            if key in value:
+                context[key] = value[key]
+
+        merged = {**context, **value}
+        records.append(merged)
         for child in value.values():
-            _walk(child, records)
+            _walk(child, records, context)
         return
+
     if isinstance(value, list):
         for child in value:
-            _walk(child, records)
+            _walk(child, records, inherited)
         return
+
     if isinstance(value, str):
         text = value.strip()
         if not text or text[0] not in "[{":
@@ -176,7 +189,7 @@ def _walk(value: Any, records: list[dict[str, Any]]) -> None:
             decoded = json.loads(text)
         except (ValueError, TypeError):
             return
-        _walk(decoded, records)
+        _walk(decoded, records, inherited)
 
 
 def _first_number(record: dict[str, Any], keys: tuple[str, ...]) -> float | int | None:
