@@ -22,7 +22,7 @@ _DIASTOLIC_KEYS = (
     "dbp",
     "lower",
 )
-_PULSE_KEYS = ("pulse", "heartRate", "heart_rate", "hr")
+_PULSE_KEYS = ("pulse", "bpm", "heartRate", "heart_rate", "hr")
 _TIME_KEYS = (
     "timestamp",
     "time",
