@@ -6,6 +6,8 @@ from zoneinfo import ZoneInfo
 import json
 
 
+_MAX_HISTORY_POINTS = 200
+
 _SYSTOLIC_KEYS = (
     "systolic",
     "systolicPressure",
@@ -58,6 +60,7 @@ def parse_blood_pressure(payload: Any, tz_name: str) -> dict[str, Any]:
         "blood_pressure_diastolic_min_today": None,
         "blood_pressure_diastolic_max_today": None,
         "blood_pressure_diastolic_avg_today": None,
+        "blood_pressure_history": [],
     }
 
     records: list[dict[str, Any]] = []
@@ -121,6 +124,16 @@ def parse_blood_pressure(payload: Any, tz_name: str) -> dict[str, Any]:
             "blood_pressure_pulse": latest["pulse"],
             "blood_pressure_time": latest["time"],
             "blood_pressure_source": latest["source"],
+            "blood_pressure_history": [
+                {
+                    "time": item["time"].isoformat(),
+                    "systolic": item["systolic"],
+                    "diastolic": item["diastolic"],
+                    "pulse": item["pulse"],
+                }
+                for item in measurements[-_MAX_HISTORY_POINTS:]
+                if item["time"] is not None
+            ],
         }
     )
 

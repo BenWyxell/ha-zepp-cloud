@@ -4,6 +4,9 @@ from datetime import datetime, timezone
 from typing import Any
 
 
+_MAX_HISTORY_POINTS = 200
+
+
 def _number(value: Any) -> float | int | None:
     if value is None or isinstance(value, bool):
         return None
@@ -30,12 +33,18 @@ def parse_spo2_v2(payload: Any) -> dict[str, Any]:
     The finish offset is preferred for the sensor timestamp because the SpO2
     value is considered complete at that point. The start offset and event
     timestamp are used as fallbacks.
+
+    A compact timestamped history is also exposed so Lovelace cards can draw
+    the actual cloud measurements instead of interpolating a continuously held
+    entity state. History is capped to keep Home Assistant state attributes
+    reasonably small.
     """
     out: dict[str, Any] = {
         "spo2": None,
         "spo2_time": None,
         "spo2_auto": None,
         "spo2_samples": 0,
+        "spo2_history": [],
     }
 
     if not isinstance(payload, dict) or not isinstance(payload.get("items"), list):
@@ -91,4 +100,13 @@ def parse_spo2_v2(payload: Any) -> dict[str, Any]:
     )
     out["spo2_auto"] = auto
     out["spo2_samples"] = len(points)
+    out["spo2_history"] = [
+        {
+            "time": datetime.fromtimestamp(ts / 1000, tz=timezone.utc).isoformat(),
+            "spo2": int(value) if value.is_integer() else value,
+            "is_auto": point_auto,
+        }
+        for ts, value, point_auto in points[-_MAX_HISTORY_POINTS:]
+        if ts
+    ]
     return out
