@@ -100,6 +100,16 @@ class ZeppCloudCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         failures: list[str] = []
         for key, result in zip(calls, results):
             if isinstance(result, ZeppAuthError):
+                # The blood-pressure endpoint may be region/account restricted even
+                # when the same token works for the rest of Zepp Cloud. Do not turn
+                # that single optional endpoint into a global reauthentication loop.
+                if key == "blood_pressure":
+                    failures.append(key)
+                    _LOGGER.warning(
+                        "Zepp Cloud endpoint '%s' is not available for this account.",
+                        key,
+                    )
+                    continue
                 raise ConfigEntryAuthFailed("Zepp token rejected or expired.") from result
             if isinstance(result, Exception):
                 failures.append(key)
